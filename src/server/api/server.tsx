@@ -1,4 +1,3 @@
-
 import 'server-only'
 
 import { createHydrationHelpers } from '@trpc/react-query/rsc'
@@ -12,7 +11,7 @@ export const getQueryClient = cache(makeQueryClient)
 const caller = createCallerFactory(appRouter)(createTRPCContext)
 
 export const { trpc, HydrateClient } = createHydrationHelpers<typeof appRouter>(
-	// @ts-expect-error - don't know the issue. TODO: Fix this
-	caller,
-	getQueryClient,
+  // @ts-expect-error - don't know the issue. TODO: Fix this
+  caller,
+  getQueryClient,
 )
