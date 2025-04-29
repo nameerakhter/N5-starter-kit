@@ -4,6 +4,7 @@ import Credentials from 'next-auth/providers/credentials'
 import bcrypt from 'bcrypt'
 import { prisma } from './db'
 import { z } from 'zod'
+import { env } from '@/lib/env'
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
@@ -53,7 +54,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     strategy: 'jwt',
   },
   // TODO: Fix the issue
-  secret: process.env.AUTH_SECRET,
+  secret: env.AUTH_SECRET,
   adapter: PrismaAdapter(prisma),
   callbacks: {
     session: ({ session, token }) => {
