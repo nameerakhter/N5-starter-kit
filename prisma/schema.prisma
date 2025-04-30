@@ -9,7 +9,7 @@ datasource db {
 
 enum UserType {
   ADMIN
-  User
+  USER
 }
 
 model User {
@@ -21,4 +21,7 @@ model User {
   userId    String?  @unique
   password  String
   image     String
+  type      UserType
+
+  @@unique([userId, type])
 }
