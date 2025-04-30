@@ -1,10 +1,22 @@
-import NextAuth from 'next-auth'
+import NextAuth, { DefaultSession } from 'next-auth'
 import { PrismaAdapter } from '@auth/prisma-adapter'
 import Credentials from 'next-auth/providers/credentials'
 import bcrypt from 'bcrypt'
 import { prisma } from './db'
 import { z } from 'zod'
 import { env } from '@/lib/env'
+import { UserType } from '@prisma/client'
+import invariant from 'tiny-invariant'
+
+declare module 'next-auth' {
+  interface Session {
+    user: DefaultSession['user'] & {
+      id: string
+      userId: string
+      type: UserType
+    }
+  }
+}
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
@@ -19,12 +31,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           .object({
             userId: z.string(),
             password: z.string(),
-            type: z.enum([
-              'STATE_OFFICER',
-              'DISTRICT_OFFICER',
-              'BLOCK_OFFICER',
-              'SUBORDINATE',
-            ]),
+            type: z.enum(['ADMIN', 'USER']),
           })
           .parse(input)
 
@@ -57,8 +64,23 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   secret: env.AUTH_SECRET,
   adapter: PrismaAdapter(prisma),
   callbacks: {
+    jwt: async ({ token }) => {
+      const userData = await prisma.user.findUnique({
+        where: {
+          id: token.sub,
+        },
+        select: {
+          type: true,
+        },
+      })
+      invariant(userData, 'user data should be present')
+      token.userType = userData.type
+      return token
+    },
+
     session: ({ session, token }) => {
       if (session.user) {
+        session.user.type = token.userType as UserType
         session.user.id = token.sub!
       }
       return session
