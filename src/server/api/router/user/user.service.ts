@@ -22,14 +22,17 @@ export async function addNewUser(data: z.infer<typeof addNewUserInput>) {
         name: data.name,
         age: data.age,
         mobile: data.mobileNumber,
+        password: data.password,
       },
       create: {
         name: data.name,
         age: data.age,
         email: data.email,
         mobile: data.mobileNumber,
+        password: data.password,
       },
     })
+    console.log('newUser', newUser)
     return newUser
   } catch (error) {
     throw new TRPCError({
