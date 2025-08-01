@@ -14,7 +14,7 @@ export function getALlUser() {
   }
 }
 
-export async function addUser(data: z.infer<typeof addNewUserInput>) {
+export async function addNewUser(data: z.infer<typeof addNewUserInput>) {
   try {
     const newUser = await prisma.user.upsert({
       where: { email: data.email },
