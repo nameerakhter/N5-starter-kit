@@ -1,39 +1,11 @@
 import { z } from 'zod'
 import { objectId } from '@/lib/validation'
 import { UserType } from '@prisma/client'
+import { AGE_REGEX, MOBILE_NUMBER_REGEX } from '@/lib/utils'
 
 export const getUserInput = z.object({
   id: objectId,
 })
-
-export const createSubordinateInputSchema = z
-  .object({
-    name: z
-      .string()
-      .min(3, { message: 'Name should be of least 3 characters' }),
-    mobileNumber: z
-      .string()
-      .min(10, { message: 'Mobile Number should be 10 digit number' })
-      .max(10),
-    districtId: z.string().optional(),
-    blockId: z.string().optional(),
-    email: z.string().email(),
-    password: z
-      .string()
-      .min(8, { message: 'Password should contain at least 8 characters' }),
-    confirmPassword: z
-      .string()
-      .min(8, { message: 'Password should contain at least 8 characters' }),
-  })
-  .superRefine((values, ctx) => {
-    if (values.password !== values.confirmPassword) {
-      ctx.addIssue({
-        code: 'custom',
-        path: ['confirmPassword'],
-        message: 'Passwords do not match',
-      })
-    }
-  })
 
 export const profileInput = z.object({
   name: z
@@ -108,31 +80,11 @@ export const getUserProfileImage = z.object({
   id: objectId,
 })
 
-export const createCRPInputSchema = z
-  .object({
-    name: z
-      .string()
-      .min(3, { message: 'Name should be of least 3 characters' }),
-    mobileNumber: z
-      .string()
-      .min(10, { message: 'Mobile Number should be 10 digit number' })
-      .max(10),
-    districtId: z.string().optional(),
-    blockId: z.string().optional(),
-    email: z.string().email(),
-    password: z
-      .string()
-      .min(8, { message: 'Password should contain at least 8 characters' }),
-    confirmPassword: z
-      .string()
-      .min(8, { message: 'Password should contain at least 8 characters' }),
-  })
-  .superRefine((values, ctx) => {
-    if (values.password !== values.confirmPassword) {
-      ctx.addIssue({
-        code: 'custom',
-        path: ['confirmPassword'],
-        message: 'Passwords do not match',
-      })
-    }
-  })
+export const addNewUserInput = z.object({
+  name: z.string().min(3, 'name must be atleast 3 characters long'),
+  age: z.string().regex(AGE_REGEX, 'age must be provided'),
+  mobileNumber: z
+    .string()
+    .regex(MOBILE_NUMBER_REGEX, 'mobile number must be atleast 10 digits'),
+  email: z.string().email('please provide a valid email'),
+})
