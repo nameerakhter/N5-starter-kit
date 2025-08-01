@@ -16,12 +16,8 @@ model User {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
-  name      String?
-  email     String?
-  userId    String?  @unique
-  password  String
-  image     String
-  type      UserType
-
-  @@unique([userId, type])
+  name      String
+  age       String
+  email     String   @unique
+  mobile    String
 }
