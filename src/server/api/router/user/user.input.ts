@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { objectId } from '@/lib/validation'
 import { UserType } from '@prisma/client'
-import { AGE_REGEX, MOBILE_NUMBER_REGEX } from '@/lib/utils'
+import { AGE_REGEX, MOBILE_NUMBER_REGEX, PASSWORD_REGEX } from '@/lib/utils'
 
 export const getUserInput = z.object({
   id: objectId,
@@ -50,9 +50,6 @@ export type ProfileInputType = z.infer<typeof profileInput>
 export const initiatePasswordResetInput = z.object({
   userId: z.string(),
   mobileNumber: z.string().regex(/^[6-9]\d{9}$/, 'Invalid mobile number'),
-  type: z.nativeEnum(UserType, {
-    errorMap: () => ({ message: 'Invalid user type' }),
-  }),
 })
 
 export const verifyOTPInput = z.object({
@@ -87,4 +84,13 @@ export const addNewUserInput = z.object({
     .string()
     .regex(MOBILE_NUMBER_REGEX, 'mobile number must be atleast 10 digits'),
   email: z.string().email('please provide a valid email'),
+  userId: z.string().optional(),
+  password: z
+    .string()
+    .min(8, 'Password must be at least 8 characters')
+    .regex(
+      PASSWORD_REGEX,
+      'Password must include uppercase, lowercase, number, and special character',
+    ),
+  type: z.enum(['ADMIN', 'USER']),
 })
