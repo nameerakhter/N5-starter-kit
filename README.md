@@ -1,5 +1,11 @@
 # N5 Starter Kit
 
+```text
++--------------------------------------+
+|          n5-starter-kit              |
++--------------------------------------+
+```
+
 ## Quick Start
 
 clone this repo directly:
