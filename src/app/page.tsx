@@ -37,7 +37,7 @@ export default function Home() {
               <Button
                 size="lg"
                 variant="outline"
-                className="border-white/20 text-white transition-all duration-300 hover:scale-105 hover:border-white hover:bg-white/10"
+                className="border-white/20 bg-primary text-white transition-all duration-300 "
               >
                 View on GitHub
               </Button>

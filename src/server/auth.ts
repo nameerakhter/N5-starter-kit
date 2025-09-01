@@ -60,7 +60,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   session: {
     strategy: 'jwt',
   },
-  // TODO: Fix the issue
   secret: env.AUTH_SECRET,
   adapter: PrismaAdapter(prisma),
   callbacks: {
