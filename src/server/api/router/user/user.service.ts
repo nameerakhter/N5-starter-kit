@@ -9,7 +9,7 @@ export function getALlUser() {
   } catch (error) {
     throw new TRPCError({
       code: 'NOT_FOUND',
-      message: 'Failed to retrieve users',
+      message: 'Failed to retrieve users' + error,
     })
   }
 }
@@ -37,7 +37,7 @@ export async function addNewUser(data: z.infer<typeof addNewUserInput>) {
   } catch (error) {
     throw new TRPCError({
       code: 'BAD_REQUEST',
-      message: 'unable to add new user ',
+      message: 'unable to add new user ' + error,
     })
   }
 }

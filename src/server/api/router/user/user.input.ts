@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { objectId } from '@/lib/validation'
-import { UserType } from '@prisma/client'
+// import { UserType } from '@prisma/client'
 import { AGE_REGEX, MOBILE_NUMBER_REGEX, PASSWORD_REGEX } from '@/lib/utils'
 
 export const getUserInput = z.object({
