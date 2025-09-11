@@ -2,6 +2,7 @@ import { prisma } from '@/server/db'
 import { TRPCError } from '@trpc/server'
 import { z } from 'zod'
 import { addNewUserInput } from './user.input'
+import bcrypt from 'bcrypt'
 
 export function getALlUser() {
   try {
@@ -16,20 +17,22 @@ export function getALlUser() {
 
 export async function addNewUser(data: z.infer<typeof addNewUserInput>) {
   try {
+    const hashedPassword = await bcrypt.hash(data.password, 10)
+
     const newUser = await prisma.user.upsert({
       where: { email: data.email },
       update: {
         name: data.name,
         age: data.age,
         mobile: data.mobileNumber,
-        password: data.password,
+        password: hashedPassword,
       },
       create: {
         name: data.name,
         age: data.age,
         email: data.email,
         mobile: data.mobileNumber,
-        password: data.password,
+        password: hashedPassword,
       },
     })
     console.log('newUser', newUser)
