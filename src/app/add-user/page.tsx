@@ -27,7 +27,7 @@ export default function AddUserForm() {
       age: '',
       mobileNumber: '',
       email: '',
-      type: UserType.USER,
+      password: ''
     },
   })
 

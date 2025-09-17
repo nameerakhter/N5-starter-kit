@@ -22,7 +22,6 @@ model User {
   mobile    String
   userId    String?
   password  String
-  type      UserType @default(USER)
 
   @@unique([userId, type])
 }
