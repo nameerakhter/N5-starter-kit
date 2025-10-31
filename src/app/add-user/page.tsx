@@ -1,12 +1,12 @@
 'use client'
 
-import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { z } from 'zod'
+
 import { trpc } from '@/client/trpc/client'
-import { addNewUserInput } from '@/server/api/router/user/user.input'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { Card, CardContent } from '@/components/ui/card'
 import {
   Form,
@@ -16,8 +16,8 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { toast } from 'sonner'
-import { UserType } from '@prisma/client'
+import { Input } from '@/components/ui/input'
+import { addNewUserInput } from '@/server/api/router/user/user.input'
 
 export default function AddUserForm() {
   const form = useForm<z.infer<typeof addNewUserInput>>({
@@ -27,13 +27,12 @@ export default function AddUserForm() {
       age: '',
       mobileNumber: '',
       email: '',
-      password: ''
+      password: '',
     },
   })
 
   const addNewUserMutation = trpc.user.addNewUser.useMutation({
-    onSuccess: (data) => {
-      console.log('User added successfully:', data)
+    onSuccess: () => {
       form.reset()
       toast.success('New user added successfully')
     },

@@ -1,12 +1,14 @@
-import NextAuth, { DefaultSession } from 'next-auth'
 import { PrismaAdapter } from '@auth/prisma-adapter'
-import Credentials from 'next-auth/providers/credentials'
-import bcrypt from 'bcrypt'
-import { prisma } from './db'
-import { z } from 'zod'
-import { env } from '@/lib/env'
 import { UserType } from '@prisma/client'
+import bcrypt from 'bcrypt'
+import NextAuth, { DefaultSession } from 'next-auth'
+import Credentials from 'next-auth/providers/credentials'
 import invariant from 'tiny-invariant'
+import z from 'zod'
+
+import { prisma } from './db'
+
+import { env } from '@/lib/env'
 
 declare module 'next-auth' {
   interface Session {

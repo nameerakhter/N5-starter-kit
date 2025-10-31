@@ -1,8 +1,10 @@
-import { prisma } from '@/server/db'
 import { TRPCError } from '@trpc/server'
-import { z } from 'zod'
-import { addNewUserInput } from './user.input'
 import bcrypt from 'bcrypt'
+import { z } from 'zod'
+
+import { addNewUserInput } from './user.input'
+
+import { prisma } from '@/server/db'
 
 export function getALlUser() {
   try {
@@ -35,7 +37,6 @@ export async function addNewUser(data: z.infer<typeof addNewUserInput>) {
         password: hashedPassword,
       },
     })
-    console.log('newUser', newUser)
     return newUser
   } catch (error) {
     throw new TRPCError({

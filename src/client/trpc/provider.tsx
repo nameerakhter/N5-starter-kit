@@ -1,12 +1,13 @@
 'use client'
 
 import type { QueryClient } from '@tanstack/react-query'
-import { useState } from 'react'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { httpBatchLink } from '@trpc/client'
+import { useState } from 'react'
 import superjson from 'superjson'
-import { makeQueryClient } from './query-client'
+
 import { trpc } from './client'
+import { makeQueryClient } from './query-client'
 
 let clientQueryClientSingleton: QueryClient
 function getQueryClient() {
